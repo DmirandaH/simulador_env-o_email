@@ -6,7 +6,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
     
-    console.log(inputMensaje);
+    // Asignar eventos
+    // el evento blur se ejecuta al abandonar un campo a otro del formulario.
+
+    inputEmail.addEventListener('blur', validar);
+    inputAsunto.addEventListener('blur', validar);
+    inputMensaje.addEventListener('blur', validar);
 
 
-});
+    function validar (evento) {
+        console.log(evento.target.value);
+        }
+    });
