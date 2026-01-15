@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const formulario = document.querySelector('#formulario');
     const inputEmailCC = document.querySelector('#email_cc');
     const btnSubmit = document.querySelector('#formulario button[type="submit"]')
-    const btnReset = document.querySelector('#formulario button[type="reset"]')
+    const btnReset = document.querySelector('#formulario button[type="reset"]');
+    const spinner = document.querySelector('#spinner');
     
     // Asignar eventos
     // el evento blur se ejecuta al abandonar un campo a otro del formulario.
@@ -30,20 +31,46 @@ document.addEventListener('DOMContentLoaded', function() {
     inputMensaje.addEventListener('input', validar);
     inputEmailCC.addEventListener('input', validar);
 
+    formulario.addEventListener('submit', enviarEmail); 
+
+    
+
     btnReset.addEventListener('click', function(evento) {
 
       evento.preventDefault();
+      resetFormulario();
 
-      // reinciar el objeto
-      email.email = '',
-      email_cc.email_cc = '',
-      asunto.asunto = '',
-      mensaje.mensaje = '';
-
-      formulario.reset();
-      comprobarEmail();
+      
 
     })
+
+    function enviarEmail(evento) {
+      evento.preventDefault();
+
+      spinner.classList.add('flex');
+      spinner.classList.remove('hidden');
+
+      setTimeout(() => {
+         spinner.classList.remove('flex');
+         spinner.classList.add('hidden');
+
+         resetFormulario();
+
+         // Crear una alerta 
+         const alertaExito = document.createElement('p');
+         alertaExito.classList.add('bg-green-500', 'text-white', 'p-2', 'text-center', 'rounded-lg', 'mt-10', 'font-bold', 'text-sm', 'uppercase');
+         alertaExito.textContent = 'Mensaje enviado correctamente';
+
+         formulario.appendChild(alertaExito);
+
+         setTimeout(() => {
+          alertaExito.remove();
+
+         },3000);
+         
+      }, 3000);
+     
+    }
 
 
     function validar (evento) { 
@@ -120,5 +147,16 @@ document.addEventListener('DOMContentLoaded', function() {
           btnSubmit.disabled = false;
 
     }  
+
+    function resetFormulario () {
+      // reinciar el objeto
+      email.email = '',
+      email_cc.email_cc = '',
+      asunto.asunto = '',
+      mensaje.mensaje = '';
+
+      formulario.reset();
+      comprobarEmail();
+    }
 
 });
